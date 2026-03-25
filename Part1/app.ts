@@ -129,3 +129,9 @@ function deleteItem(itemName: string): boolean {
   renderAllItems();
   return true;
 }
+
+function searchItems(itemName: string): InventoryItem[] {
+  const searchTerm = itemName.toLowerCase().trim();
+  if (!searchTerm) return [];
+  return inventory.filter(item => item.itemName.toLowerCase().includes(searchTerm));
+}
