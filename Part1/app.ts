@@ -79,3 +79,27 @@ function showMessage(text: string, type: "success" | "error") {
   messageDiv.className = type === "success" ? "success-message" : "error-message";
   setTimeout(() => messageDiv.textContent = "", 3000);
 }
+
+function editItem(itemName: string, updatedData: Partial<InventoryItem>): boolean {
+  const itemsToUpdate = inventory.filter(item => item.itemName.toLowerCase() === itemName.toLowerCase());
+  if (itemsToUpdate.length === 0) {
+    showMessage("Error: Item not found!", "error");
+    return false;
+  }
+  if (itemsToUpdate.length > 1) {
+    let idOptions = itemsToUpdate.map(item => `ID: ${item.itemId} - ${item.itemName}`).join("\n");
+    const targetId = prompt(`Multiple items found:\n${idOptions}\nEnter the Item ID to edit:`);
+    if (!targetId) return false;
+    const targetItem = inventory.find(item => item.itemId === targetId);
+    if (!targetItem) {
+      showMessage("Error: Selected Item ID not found!", "error");
+      return false;
+    }
+    Object.assign(targetItem, { ...updatedData, itemId: targetItem.itemId });
+  } else {
+    Object.assign(itemsToUpdate[0], { ...updatedData, itemId: itemsToUpdate[0].itemId });
+  }
+  showMessage("Item updated successfully!", "success");
+  renderAllItems();
+  return true;
+}
