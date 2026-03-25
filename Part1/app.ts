@@ -2,15 +2,15 @@ type ItemCategory = "Electronics" | "Furniture" | "Clothing" | "Tools" | "Miscel
 type StockStatus = "In Stock" | "Low Stock" | "Out of Stock";
 
 interface InventoryItem {
-  itemId: string; 
-  itemName: string; 
-  category: ItemCategory; 
-  quantity: number; 
-  price: number; 
+  itemId: string;
+  itemName: string;
+  category: ItemCategory;
+  quantity: number;
+  price: number;
   supplierName: string; 
   stockStatus: StockStatus; 
-  isPopular: boolean;
-  comment?: string;
+  isPopular: boolean; 
+  comment?: string; 
 }
 
 let inventory: InventoryItem[] = [
@@ -26,3 +26,56 @@ let inventory: InventoryItem[] = [
     comment: "Noise-cancelling"
   }
 ];
+
+function addItem(newItem: InventoryItem): boolean {
+  if (!newItem.itemId || !newItem.itemName || !newItem.category || !newItem.quantity || !newItem.price || !newItem.supplierName || !newItem.stockStatus) {
+    showMessage("Error: All fields except comment are required!", "error");
+    return false;
+  }
+  const isIdUnique = !inventory.some(item => item.itemId === newItem.itemId);
+  if (!isIdUnique) {
+    showMessage("Error: Item ID must be unique!", "error");
+    return false;
+  }
+  if (newItem.quantity <= 0 || newItem.price <= 0) {
+    showMessage("Error: Quantity and price must be positive numbers!", "error");
+    return false;
+  }
+  inventory.push(newItem);
+  showMessage("Item added successfully!", "success");
+  renderAllItems();
+  return true;
+}
+
+function renderAllItems() {
+  const allItemsDiv = document.getElementById("all-items") as HTMLDivElement;
+  allItemsDiv.innerHTML = "<h3>All Inventory Items</h3>";
+
+  if (inventory.length === 0) {
+    allItemsDiv.innerHTML += "<p>No items in inventory.</p >";
+    return;
+  }
+
+  inventory.forEach(item => {
+    allItemsDiv.innerHTML += `
+      <div class="item-card">
+        <p><strong>ID:</strong> ${item.itemId}</p >
+        <p><strong>Name:</strong> ${item.itemName}</p >
+        <p><strong>Category:</strong> ${item.category}</p >
+        <p><strong>Quantity:</strong> ${item.quantity}</p >
+        <p><strong>Price:</strong> $${item.price.toFixed(2)}</p >
+        <p><strong>Supplier:</strong> ${item.supplierName}</p >
+        <p><strong>Stock Status:</strong> ${item.stockStatus}</p >
+        <p><strong>Popular:</strong> ${item.isPopular ? "Yes" : "No"}</p >
+        ${item.comment ? `<p><strong>Comment:</strong> ${item.comment}</p >` : ""}
+      </div>
+    `;
+  });
+}
+
+function showMessage(text: string, type: "success" | "error") {
+  const messageDiv = document.getElementById("message") as HTMLDivElement;
+  messageDiv.textContent = text;
+  messageDiv.className = type === "success" ? "success-message" : "error-message";
+  setTimeout(() => messageDiv.textContent = "", 3000);
+}
