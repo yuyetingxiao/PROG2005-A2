@@ -73,6 +73,26 @@ function renderAllItems() {
   });
 }
 
+function renderPopularItems() {
+  const popularItemsDiv = document.getElementById("popular-items") as HTMLDivElement;
+  popularItemsDiv.innerHTML = "<h3>Popular Items</h3>";
+  const popularItems = inventory.filter(item => item.isPopular);
+  if (popularItems.length === 0) {
+    popularItemsDiv.innerHTML += "<p>No popular items.</p >";
+    return;
+  }
+  popularItems.forEach(item => {
+    popularItemsDiv.innerHTML += `
+      <div class="item-card popular">
+        <p><strong>Name:</strong> ${item.itemName}</p >
+        <p><strong>Category:</strong> ${item.category}</p >
+        <p><strong>Price:</strong> $${item.price.toFixed(2)}</p >
+        <p><strong>Stock Status:</strong> ${item.stockStatus}</p >
+      </div>
+    `;
+  });
+}
+
 function showMessage(text: string, type: "success" | "error") {
   const messageDiv = document.getElementById("message") as HTMLDivElement;
   messageDiv.textContent = text;
