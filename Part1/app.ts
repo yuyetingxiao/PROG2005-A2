@@ -103,3 +103,29 @@ function editItem(itemName: string, updatedData: Partial<InventoryItem>): boolea
   renderAllItems();
   return true;
 }
+
+function deleteItem(itemName: string): boolean {
+  const itemsToDelete = inventory.filter(item => item.itemName.toLowerCase() === itemName.toLowerCase());
+  if (itemsToDelete.length === 0) {
+    showMessage("Error: Item not found!", "error");
+    return false;
+  }
+  if (itemsToDelete.length > 1) {
+    let idOptions = itemsToDelete.map(item => `ID: ${item.itemId} - ${item.itemName}`).join("\n");
+    const targetId = prompt(`Multiple items found:\n${idOptions}\nEnter the Item ID to delete:`);
+    if (!targetId) return false;
+    const initialLength = inventory.length;
+    inventory = inventory.filter(item => item.itemId !== targetId);
+    if (inventory.length === initialLength) {
+      showMessage("Error: Selected Item ID not found!", "error");
+      return false;
+    }
+  } else {
+    const confirmDelete = confirm(`Are you sure you want to delete ${itemsToDelete[0].itemName}?`);
+    if (!confirmDelete) return false;
+    inventory = inventory.filter(item => item.itemName.toLowerCase() !== itemName.toLowerCase());
+  }
+  showMessage("Item deleted successfully!", "success");
+  renderAllItems();
+  return true;
+}
