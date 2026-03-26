@@ -1,31 +1,20 @@
 /**
  * PROG2005 Assignment 2 - Part 1
  * Inventory Management System (TypeScript)
+ *
  * Student Name: Hong Sitong
- * Student ID: 202300408006
- * Date:2026-03-24
+ * Student ID:   202300408006
+ * Date:         2026-03-26
  * Description:
  * This TypeScript script implements a fully functional inventory management
  * system that supports adding, editing, deleting, searching, and filtering
  * inventory items. It includes validation, stock status auto-update,
  * and UI rendering for a web-based interface.
  */
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 /**
- * Main inventory array - stores all inventory items
- * Initialized with sample data
+ * Main inventory array
  */
-var inventory = [
+let inventory = [
     {
         itemId: "ITEM001",
         itemName: "Wireless Headphones",
@@ -39,211 +28,248 @@ var inventory = [
     }
 ];
 /**
- * Adds a new item to inventory after validation
- * @param newItem - The new inventory item to add
- * @returns boolean - true if added successfully, false if validation failed
+ * Add new item with full validation
  */
 function addItem(newItem) {
-    // Check all required fields are provided
-    if (!newItem.itemId || !newItem.itemName || !newItem.category || !newItem.quantity || !newItem.price || !newItem.supplierName || !newItem.stockStatus) {
+    if (!newItem.itemId || !newItem.itemName || !newItem.category || !newItem.quantity || !newItem.price || !newItem.supplierName) {
         showMessage("Error: All fields except comment are required!", "error");
         return false;
     }
-    // Ensure item ID is unique
-    var isIdUnique = !inventory.some(function (item) { return item.itemId === newItem.itemId; });
+    const isIdUnique = !inventory.some(item => item.itemId === newItem.itemId);
     if (!isIdUnique) {
         showMessage("Error: Item ID must be unique!", "error");
         return false;
     }
-    // Validate positive quantity and price
     if (newItem.quantity <= 0 || newItem.price <= 0) {
-        showMessage("Error: Quantity and price must be positive numbers!", "error");
+        showMessage("Error: Quantity & price must be positive numbers!", "error");
         return false;
     }
-    // Add valid item to inventory
     inventory.push(newItem);
     showMessage("Item added successfully!", "success");
     renderAllItems();
     return true;
 }
 /**
- * Renders all inventory items to the UI
- * Displays item cards with full details
+ * Render all items
  */
 function renderAllItems() {
-    var allItemsDiv = document.getElementById("all-items");
+    const allItemsDiv = document.getElementById("all-items");
     allItemsDiv.innerHTML = "<h3>All Inventory Items</h3>";
-    // Show message if inventory is empty
     if (inventory.length === 0) {
         allItemsDiv.innerHTML += "<p>No items in inventory.</p>";
         return;
     }
-    // Loop through inventory and create UI cards
-    inventory.forEach(function (item) {
-        allItemsDiv.innerHTML += "\n      <div class=\"item-card\">\n        <p><strong>ID:</strong> ".concat(item.itemId, "</p>\n        <p><strong>Name:</strong> ").concat(item.itemName, "</p>\n        <p><strong>Category:</strong> ").concat(item.category, "</p>\n        <p><strong>Quantity:</strong> ").concat(item.quantity, "</p>\n        <p><strong>Price:</strong> $").concat(item.price.toFixed(2), "</p>\n        <p><strong>Supplier:</strong> ").concat(item.supplierName, "</p>\n        <p><strong>Stock Status:</strong> ").concat(item.stockStatus, "</p>\n        <p><strong>Popular:</strong> ").concat(item.isPopular ? "Yes" : "No", "</p>\n        ").concat(item.comment ? "<p><strong>Comment:</strong> ".concat(item.comment, "</p>") : "", "\n      </div>\n    ");
+    inventory.forEach(item => {
+        allItemsDiv.innerHTML += `
+      <div class="item-card">
+        <p><strong>ID:</strong> ${item.itemId}</p>
+        <p><strong>Name:</strong> ${item.itemName}</p>
+        <p><strong>Category:</strong> ${item.category}</p>
+        <p><strong>Quantity:</strong> ${item.quantity}</p>
+        <p><strong>Price:</strong> $${item.price.toFixed(2)}</p>
+        <p><strong>Supplier:</strong> ${item.supplierName}</p>
+        <p><strong>Stock:</strong> ${item.stockStatus}</p>
+        <p><strong>Popular:</strong> ${item.isPopular ? "Yes" : "No"}</p>
+        ${item.comment ? `<p><strong>Comment:</strong> ${item.comment}</p>` : ""}
+      </div>
+    `;
     });
 }
 /**
- * Renders only popular items in the UI
- * Filters inventory where isPopular = true
+ * Render popular items
  */
 function renderPopularItems() {
-    var popularItemsDiv = document.getElementById("popular-items");
+    const popularItemsDiv = document.getElementById("popular-items");
     popularItemsDiv.innerHTML = "<h3>Popular Items</h3>";
-    // Filter popular items
-    var popularItems = inventory.filter(function (item) { return item.isPopular; });
-    // Show message if no popular items
+    const popularItems = inventory.filter(i => i.isPopular);
     if (popularItems.length === 0) {
         popularItemsDiv.innerHTML += "<p>No popular items.</p>";
         return;
     }
-    // Display popular items in simplified card format
-    popularItems.forEach(function (item) {
-        popularItemsDiv.innerHTML += "\n      <div class=\"item-card popular\">\n        <p><strong>Name:</strong> ".concat(item.itemName, "</p>\n        <p><strong>Category:</strong> ").concat(item.category, "</p>\n        <p><strong>Price:</strong> $").concat(item.price.toFixed(2), "</p>\n        <p><strong>Stock Status:</strong> ").concat(item.stockStatus, "</p>\n      </div>\n    ");
+    popularItems.forEach(item => {
+        popularItemsDiv.innerHTML += `
+      <div class="item-card popular">
+        <p><strong>Name:</strong> ${item.itemName}</p>
+        <p><strong>Category:</strong> ${item.category}</p>
+        <p><strong>Price:</strong> $${item.price.toFixed(2)}</p>
+        <p><strong>Stock:</strong> ${item.stockStatus}</p>
+      </div>
+    `;
     });
 }
 /**
- * Displays a temporary success/error message on the page
- * @param text - Message content to display
- * @param type - Message style: "success" or "error"
+ * Show success/error message
  */
 function showMessage(text, type) {
-    var messageDiv = document.getElementById("message");
+    const messageDiv = document.getElementById("message");
     messageDiv.textContent = text;
     messageDiv.className = type === "success" ? "success-message" : "error-message";
-    // Clear message after 3 seconds
-    setTimeout(function () { return messageDiv.textContent = ""; }, 3000);
+    setTimeout(() => messageDiv.textContent = "", 3000);
 }
 /**
- * Edits an existing item by item name
- * Handles duplicate names by prompting for Item ID
- * @param itemName - Name of item to edit
- * @param updatedData - Partial data to update
- * @returns boolean - true if updated successfully
+ * Edit item by name (HD FIX: can now update name)
  */
 function editItem(itemName, updatedData) {
-    // Find all items matching the name (case-insensitive)
-    var itemsToUpdate = inventory.filter(function (item) { return item.itemName.toLowerCase() === itemName.toLowerCase(); });
-    // No item found
+    const itemsToUpdate = inventory.filter(item => item.itemName.toLowerCase() === itemName.toLowerCase());
     if (itemsToUpdate.length === 0) {
         showMessage("Error: Item not found!", "error");
         return false;
     }
-    // Handle multiple items with same name
     if (itemsToUpdate.length > 1) {
-        var idOptions = itemsToUpdate.map(function (item) { return "ID: ".concat(item.itemId, " - ").concat(item.itemName); }).join("\n");
-        var targetId_1 = prompt("Multiple items found:\n".concat(idOptions, "\nEnter the Item ID to edit:"));
-        if (!targetId_1)
+        let idOptions = itemsToUpdate.map(item => `ID: ${item.itemId} - ${item.itemName}`).join("\n");
+        const targetId = prompt(`Multiple items found:\n${idOptions}\nEnter Item ID to edit:`);
+        if (!targetId)
             return false;
-        // Find exact item by ID
-        var targetItem = inventory.find(function (item) { return item.itemId === targetId_1; });
+        const targetItem = inventory.find(item => item.itemId === targetId);
         if (!targetItem) {
-            showMessage("Error: Selected Item ID not found!", "error");
+            showMessage("Error: ID not found!", "error");
             return false;
         }
-        // Update item while preserving original ID
-        Object.assign(targetItem, __assign(__assign({}, updatedData), { itemId: targetItem.itemId }));
+        Object.assign(targetItem, Object.assign(Object.assign({}, updatedData), { itemId: targetItem.itemId }));
     }
     else {
-        // Single item found - update directly
-        Object.assign(itemsToUpdate[0], __assign(__assign({}, updatedData), { itemId: itemsToUpdate[0].itemId }));
+        Object.assign(itemsToUpdate[0], Object.assign(Object.assign({}, updatedData), { itemId: itemsToUpdate[0].itemId }));
     }
     showMessage("Item updated successfully!", "success");
     renderAllItems();
+    renderPopularItems();
     return true;
 }
 /**
- * Deletes an item by name
- * Handles duplicates by asking for Item ID
- * Requires user confirmation
- * @param itemName - Name of item to delete
- * @returns boolean - true if deleted
+ * Delete item by name
  */
 function deleteItem(itemName) {
-    // Find items by name
-    var itemsToDelete = inventory.filter(function (item) { return item.itemName.toLowerCase() === itemName.toLowerCase(); });
+    const itemsToDelete = inventory.filter(item => item.itemName.toLowerCase() === itemName.toLowerCase());
     if (itemsToDelete.length === 0) {
         showMessage("Error: Item not found!", "error");
         return false;
     }
-    // Multiple matches → require ID
     if (itemsToDelete.length > 1) {
-        var idOptions = itemsToDelete.map(function (item) { return "ID: ".concat(item.itemId, " - ").concat(item.itemName); }).join("\n");
-        var targetId_2 = prompt("Multiple items found:\n".concat(idOptions, "\nEnter the Item ID to delete:"));
-        if (!targetId_2)
+        let idOptions = itemsToDelete.map(item => `ID: ${item.itemId} - ${item.itemName}`).join("\n");
+        const targetId = prompt(`Multiple items found:\n${idOptions}\nEnter Item ID to delete:`);
+        if (!targetId)
             return false;
-        var initialLength = inventory.length;
-        inventory = inventory.filter(function (item) { return item.itemId !== targetId_2; });
-        // No item removed
-        if (inventory.length === initialLength) {
-            showMessage("Error: Selected Item ID not found!", "error");
+        const len = inventory.length;
+        inventory = inventory.filter(item => item.itemId !== targetId);
+        if (inventory.length === len) {
+            showMessage("Error: ID not found!", "error");
             return false;
         }
     }
     else {
-        // Single item → confirm before deletion
-        var confirmDelete = confirm("Are you sure you want to delete ".concat(itemsToDelete[0].itemName, "?"));
-        if (!confirmDelete)
-            return false;
-        // Remove item from array
-        inventory = inventory.filter(function (item) { return item.itemName.toLowerCase() !== itemName.toLowerCase(); });
+        inventory = inventory.filter(item => item.itemName.toLowerCase() !== itemName.toLowerCase());
     }
     showMessage("Item deleted successfully!", "success");
     renderAllItems();
+    renderPopularItems();
     return true;
 }
 /**
- * Searches items by name (case-insensitive, partial match)
- * @param itemName - Search keyword
- * @returns InventoryItem[] - Matching results
+ * Search items by name
  */
 function searchItems(itemName) {
-    var searchTerm = itemName.toLowerCase().trim();
-    if (!searchTerm)
+    const term = itemName.toLowerCase().trim();
+    if (!term)
         return [];
-    // Return items containing the search term
-    return inventory.filter(function (item) { return item.itemName.toLowerCase().includes(searchTerm); });
+    return inventory.filter(i => i.itemName.toLowerCase().includes(term));
 }
 /**
- * Automatically updates stock status based on quantity
- * Out of Stock: 0
- * Low Stock: 1–9
- * In Stock: 10+
+ * Auto update stock status
  */
 function autoUpdateStockStatus() {
-    inventory = inventory.map(function (item) {
-        var newStatus;
-        if (item.quantity <= 0) {
-            newStatus = "Out of Stock";
-        }
-        else if (item.quantity < 10) {
-            newStatus = "Low Stock";
-        }
-        else {
-            newStatus = "In Stock";
-        }
-        return __assign(__assign({}, item), { stockStatus: newStatus });
+    inventory = inventory.map(item => {
+        let status;
+        if (item.quantity <= 0)
+            status = "Out of Stock";
+        else if (item.quantity < 10)
+            status = "Low Stock";
+        else
+            status = "In Stock";
+        return Object.assign(Object.assign({}, item), { stockStatus: status });
     });
     renderAllItems();
 }
-// Filter products by category
+/**
+ * Filter by category
+ */
 function filterByCategory(category) {
-    return inventory.filter(function (item) { return item.category === category; });
+    return inventory.filter(i => i.category === category);
 }
-// Search result rendering
+/**
+ * Render search results
+ */
 function renderSearchResults(results) {
-    var searchResultsDiv = document.getElementById("search-results");
-    searchResultsDiv.innerHTML = "<h3>Search Results</h3>";
+    const div = document.getElementById("search-results");
+    div.innerHTML = "<h3>Search Results</h3>";
     if (results.length === 0) {
-        searchResultsDiv.innerHTML += "<p>No matching items found.</p>";
+        div.innerHTML += "<p>No matching items.</p>";
         return;
     }
-    results.forEach(function (item) {
-        searchResultsDiv.innerHTML += "\n      <div class=\"item-card\">\n        <p><strong>ID:</strong> ".concat(item.itemId, "</p>\n        <p><strong>Name:</strong> ").concat(item.itemName, "</p>\n        <p><strong>Category:</strong> ").concat(item.category, "</p>\n        <p><strong>Quantity:</strong> ").concat(item.quantity, "</p>\n        <p><strong>Price:</strong> $").concat(item.price.toFixed(2), "</p>\n        <p><strong>Stock:</strong> ").concat(item.stockStatus, "</p>\n      </div>\n    ");
+    results.forEach(item => {
+        div.innerHTML += `
+      <div class="item-card">
+        <p><strong>ID:</strong> ${item.itemId}</p>
+        <p><strong>Name:</strong> ${item.itemName}</p>
+        <p><strong>Category:</strong> ${item.category}</p>
+        <p><strong>Quantity:</strong> ${item.quantity}</p>
+        <p><strong>Price:</strong> $${item.price.toFixed(2)}</p>
+      </div>
+    `;
     });
 }
-// Automatically render during page loading
-window.onload = function () {
+/**
+ * Button Handler Functions
+ */
+function handleAddItem() {
+    const itemId = document.getElementById("itemId").value;
+    const itemName = document.getElementById("itemName").value;
+    const category = document.getElementById("category").value;
+    const quantity = Number(document.getElementById("quantity").value);
+    const price = Number(document.getElementById("price").value);
+    const supplierName = document.getElementById("supplierName").value;
+    const stockStatus = document.getElementById("stockStatus").value;
+    const isPopular = document.getElementById("isPopular").checked;
+    const comment = document.getElementById("comment").value;
+    if (isNaN(quantity) || isNaN(price)) {
+        showMessage("Error: Quantity & Price must be numbers!", "error");
+        return;
+    }
+    const newItem = {
+        itemId, itemName, category, quantity, price, supplierName, stockStatus, isPopular, comment
+    };
+    const success = addItem(newItem);
+    if (success) {
+        autoUpdateStockStatus();
+        renderPopularItems();
+    }
+}
+function handleSearch() {
+    const term = document.getElementById("searchInput").value;
+    const results = searchItems(term);
+    renderSearchResults(results);
+}
+//Edit now CAN CHANGE item name!
+function handleEdit() {
+    const oldName = document.getElementById("editName").value;
+    if (!oldName) {
+        showMessage("Please enter item name to edit!", "error");
+        return;
+    }
+    const newName = prompt("Enter new item name:");
+    if (!newName)
+        return;
+    editItem(oldName, { itemName: newName });
+}
+function handleDelete() {
+    const name = document.getElementById("deleteName").value;
+    if (!name) {
+        showMessage("Please enter item name to delete!", "error");
+        return;
+    }
+    deleteItem(name);
+}
+// Page load
+window.onload = () => {
     autoUpdateStockStatus();
     renderAllItems();
     renderPopularItems();
