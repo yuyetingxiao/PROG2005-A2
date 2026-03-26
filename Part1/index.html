@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inventory System - Part1</title>
-  <link rel="stylesheet" href="../css/style.css">
+ <link rel="stylesheet" href="./style.css">
 </head>
 <body>
   <div class="container">
@@ -59,25 +59,34 @@
     </div>
   </div>
 
-  <script src="../ts/inventory.js"></script>
+  <script src="./app.js"></script>
   <script>
-    // 绑定页面按钮
+    // Bind page button
     function handleAddItem() {
-      const newItem = {
-        itemId: document.getElementById("itemId").value,
-        itemName: document.getElementById("itemName").value,
-        category: document.getElementById("category").value,
-        quantity: Number(document.getElementById("quantity").value),
-        price: Number(document.getElementById("price").value),
-        supplierName: document.getElementById("supplierName").value,
-        stockStatus: document.getElementById("stockStatus").value,
-        isPopular: document.getElementById("isPopular").checked,
-        comment: document.getElementById("comment").value
-      };
-      addItem(newItem);
-      autoUpdateStockStatus();
-      renderPopularItems();
-    }
+  const newItem = {
+    itemId: document.getElementById("itemId").value,
+    itemName: document.getElementById("itemName").value,
+    category: document.getElementById("category").value,
+    quantity: Number(document.getElementById("quantity").value),
+    price: Number(document.getElementById("price").value),
+    supplierName: document.getElementById("supplierName").value,
+    stockStatus: document.getElementById("stockStatus").value,
+    isPopular: document.getElementById("isPopular").checked,
+    comment: document.getElementById("comment").value
+  };
+  const isAdded = addItem(newItem);
+  if (isAdded) { 
+    autoUpdateStockStatus();
+    renderPopularItems();
+    document.getElementById("itemId").value = "";
+    document.getElementById("itemName").value = "";
+    document.getElementById("quantity").value = "";
+    document.getElementById("price").value = "";
+    document.getElementById("supplierName").value = "";
+    document.getElementById("comment").value = "";
+    document.getElementById("isPopular").checked = false;
+  }
+}
 
     function handleSearch() {
       const term = document.getElementById("searchInput").value;

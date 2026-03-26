@@ -326,3 +326,40 @@ window.onload = () => {
   renderAllItems();
   renderPopularItems();
 };
+
+function handleAddItem() {
+  const newItem = {
+    itemId: (document.getElementById("itemId") as HTMLInputElement).value,
+    itemName: (document.getElementById("itemName") as HTMLInputElement).value,
+    category: (document.getElementById("category") as HTMLSelectElement).value as ItemCategory,
+    quantity: Number((document.getElementById("quantity") as HTMLInputElement).value),
+    price: Number((document.getElementById("price") as HTMLInputElement).value),
+    supplierName: (document.getElementById("supplierName") as HTMLInputElement).value,
+    stockStatus: (document.getElementById("stockStatus") as HTMLSelectElement).value as StockStatus,
+    isPopular: (document.getElementById("isPopular") as HTMLInputElement).checked,
+    comment: (document.getElementById("comment") as HTMLInputElement).value
+  };
+
+  addItem(newItem);
+  autoUpdateStockStatus();
+  renderPopularItems();
+}
+
+function handleSearch() {
+  const searchTerm = (document.getElementById("searchInput") as HTMLInputElement).value;
+  const results = searchItems(searchTerm);
+  renderSearchResults(results);
+}
+
+function handleEdit() {
+  const input = document.getElementById("editName") as HTMLInputElement | null;
+  if (!input) return; 
+  const name = input.value;
+  alert("Edit function will run by item name.");
+  editItem(name, {});
+}
+
+function handleDelete() {
+  const name = (document.getElementById("deleteName") as HTMLInputElement).value;
+  deleteItem(name);
+}
