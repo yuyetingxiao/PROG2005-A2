@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory System - Part1</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Inventory Management System</h1>
+    <div id="message" class="message"></div>
+
+    <!-- Add Item Form -->
+    <div class="form-container">
+      <h3>Add New Item</h3>
+      <input type="text" id="itemId" placeholder="Item ID (unique)">
+      <input type="text" id="itemName" placeholder="Item Name">
+      <select id="category">
+        <option value="Electronics">Electronics</option>
+        <option value="Furniture">Furniture</option>
+        <option value="Clothing">Clothing</option>
+        <option value="Tools">Tools</option>
+        <option value="Miscellaneous">Miscellaneous</option>
+      </select>
+      <input type="number" id="quantity" placeholder="Quantity">
+      <input type="number" id="price" placeholder="Price">
+      <input type="text" id="supplierName" placeholder="Supplier">
+      <select id="stockStatus">
+        <option value="In Stock">In Stock</option>
+        <option value="Low Stock">Low Stock</option>
+        <option value="Out of Stock">Out of Stock</option>
+      </select>
+      <label><input type="checkbox" id="isPopular"> Popular Item</label>
+      <textarea id="comment" placeholder="Comment (optional)"></textarea>
+      <button onclick="handleAddItem()">Add Item</button>
+    </div>
+
+    <!-- Search -->
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search by name">
+      <button onclick="handleSearch()">Search</button>
+      <div id="search-results"></div>
+    </div>
+
+    <!-- Edit / Delete -->
+    <div class="action-container">
+      <input type="text" id="editName" placeholder="Item name to edit">
+      <button onclick="handleEdit()">Edit</button>
+
+      <input type="text" id="deleteName" placeholder="Item name to delete">
+      <button onclick="handleDelete()">Delete</button>
+    </div>
+
+    <!-- All Items + Popular Items -->
+    <div class="grid-container">
+      <div id="all-items"></div>
+      <div id="popular-items"></div>
+    </div>
+  </div>
+
+  <script src="../ts/inventory.js"></script>
+  <script>
+    // 绑定页面按钮
+    function handleAddItem() {
+      const newItem = {
+        itemId: document.getElementById("itemId").value,
+        itemName: document.getElementById("itemName").value,
+        category: document.getElementById("category").value,
+        quantity: Number(document.getElementById("quantity").value),
+        price: Number(document.getElementById("price").value),
+        supplierName: document.getElementById("supplierName").value,
+        stockStatus: document.getElementById("stockStatus").value,
+        isPopular: document.getElementById("isPopular").checked,
+        comment: document.getElementById("comment").value
+      };
+      addItem(newItem);
+      autoUpdateStockStatus();
+      renderPopularItems();
+    }
+
+    function handleSearch() {
+      const term = document.getElementById("searchInput").value;
+      const results = searchItems(term);
+      renderSearchResults(results);
+    }
+
+    function handleEdit() {
+      const name = document.getElementById("editName").value;
+      alert("Edit function will run by item name.");
+      editItem(name, {});
+    }
+
+    function handleDelete() {
+      const name = document.getElementById("deleteName").value;
+      deleteItem(name);
+      renderPopularItems();
+    }
+  </script>
+</body>
+</html>
