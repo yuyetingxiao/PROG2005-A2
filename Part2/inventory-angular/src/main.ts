@@ -1,6 +1,7 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
-import { App } from './app/app';
+// 👇 导入正确的类名 AppComponent，不是 App
+import { AppComponent } from './app/app';
 
-bootstrapApplication(App, appConfig)
+bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));
