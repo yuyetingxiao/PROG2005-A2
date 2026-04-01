@@ -1,17 +1,11 @@
 /* Search Page Style */
 .search-bar {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #cbd5e0;
-    border-radius: 6px;
-    font-size: 16px;
-    margin-bottom: 20px;
+  margin: 1.5rem 0;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
 }
 
-.search-result {
-    padding: 12px;
-    background: white;
-    border-radius: 6px;
-    margin-bottom: 10px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+.search-results {
+  margin-top: 2rem;
 }

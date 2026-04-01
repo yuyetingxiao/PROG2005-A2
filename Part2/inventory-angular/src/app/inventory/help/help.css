@@ -1,15 +1,9 @@
 /* Help Page Style */
-.help-content {
-    background: white;
-    padding: 30px;
-    border-radius: 8px;
-    line-height: 1.8;
+.content-block {
+  line-height: 1.8;
+  color: #495057;
 }
 
-.help-section {
-    margin-bottom: 24px;
-}
-
-.help-section h3 {
-    color: #3182ce;
+.content-block p {
+  margin-bottom: 0.75rem;
 }
