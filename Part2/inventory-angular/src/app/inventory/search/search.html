@@ -1,7 +1,18 @@
-<h2>Search Items</h2>
-<input [(ngModel)]="keyword" placeholder="Search name..." />
-<button (click)="doSearch()">Search</button>
+<!-- search.html -->
+<h2>Search & Filter Items</h2>
+<div #msg class="message"></div>
 
-<div *ngFor="let item of result">
-  <p>{{ item.itemName }} | {{ item.category }}</p>
-</div>
+<input class="form-control" #searchInput (input)="onSearch(searchInput)" placeholder="Search by name">
+
+<select class="form-control" #categorySelect (change)="onFilter(categorySelect)">
+  <option value="">All Categories</option>
+  <option>Electronics</option>
+  <option>Furniture</option>
+  <option>Tools</option>
+</select>
+
+<ul class="item-list">
+  <li *ngFor="let item of results">
+    {{ item.name }} | {{ item.category }} | ${{ item.price }} | Stock: {{ item.quantity }}
+  </li>
+</ul>

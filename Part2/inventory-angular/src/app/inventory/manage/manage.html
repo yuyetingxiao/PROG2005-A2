@@ -1,17 +1,34 @@
+<!-- manage.html -->
 <h2>Manage Inventory</h2>
-
-<div class="form">
-  <input [(ngModel)]="newItem.itemId" placeholder="Item ID" />
-  <input [(ngModel)]="newItem.itemName" placeholder="Name" />
-  <input [(ngModel)]="newItem.quantity" type="number" placeholder="Qty" />
-  <input [(ngModel)]="newItem.price" type="number" placeholder="Price" />
+<div class="add-item-form">
+  <input [(ngModel)]="newItem.id" type="number" placeholder="Item ID" required>
+  <input [(ngModel)]="newItem.name" placeholder="Item Name" required>
+  <select [(ngModel)]="newItem.category">
+    <option>Electronics</option>
+    <option>Furniture</option>
+    <option>Tools</option>
+    <option>Clothing</option>
+    <option>Miscellaneous</option>
+  </select>
+  <input [(ngModel)]="newItem.quantity" type="number" placeholder="Quantity" required>
+  <input [(ngModel)]="newItem.price" type="number" placeholder="Price" required>
+  <input [(ngModel)]="newItem.supplier" placeholder="Supplier" required>
+  <label>
+    <input [(ngModel)]="newItem.isPopular" type="checkbox"> Popular
+  </label>
   <button (click)="addItem()">Add Item</button>
 </div>
 
-<h3>All Items</h3>
-<div *ngFor="let item of items">
-  <p>
-    {{ item.itemName }} - {{ item.quantity }} in stock
-    <button (click)="deleteItem(item.itemId)">Delete</button>
-  </p>
+<div class="items-list">
+  <h3>Item List</h3>
+  <div class="item-row" *ngFor="let item of items">
+    <span>{{ item.id }}</span>
+    <span>{{ item.name }}</span>
+    <span>{{ item.category }}</span>
+    <span>Qty: {{ item.quantity }}</span>
+    <span>${{ item.price }}</span>
+    <span>{{ item.inStock ? 'In Stock' : 'Out of Stock' }}</span>
+    <button (click)="deleteItemByName(item.name)">Delete</button>
+    <button (click)="editItem(item.name)">Edit</button>
+  </div>
 </div>

@@ -1,89 +1,130 @@
+// inventory.ts - HD 完整服务
 import { Injectable } from '@angular/core';
-import { InventoryItem, Category } from './models/inventory-item.model'; 
+import { InventoryItem } from './models/inventory-item.model';
 
 @Injectable({ providedIn: 'root' })
 export class InventoryService {
+  // 初始化示例数据（包含所有必填字段）
   private items: InventoryItem[] = [
     {
+      id: 1,
       itemId: 'ITEM001',
-      itemName: 'Laptop',
+      name: 'Laptop',
       category: 'Electronics',
       quantity: 15,
       price: 1200,
-      supplier: 'Tech Supplier',
-      status: 'In Stock',
-      isPopular: true
+      supplier: 'Tech Corp',
+      isPopular: true,
+      inStock: true,
+      comment: 'High-performance business laptop'
     },
     {
+      id: 2,
       itemId: 'ITEM002',
-      itemName: 'Office Chair',
+      name: 'Office Chair',
       category: 'Furniture',
       quantity: 8,
       price: 180,
-      supplier: 'Furniture Co',
-      status: 'Low Stock',
-      isPopular: true
+      supplier: 'Office Supplies Ltd',
+      isPopular: true,
+      inStock: true,
+      comment: 'Ergonomic design for long hours'
     },
     {
+      id: 3,
       itemId: 'ITEM003',
-      itemName: 'Cordless Drill',
+      name: 'Cordless Drill',
       category: 'Tools',
       quantity: 0,
       price: 99,
-      supplier: 'Tool World',
-      status: 'Out of Stock',
-      isPopular: false
+      supplier: 'Hardware Store',
+      isPopular: false,
+      inStock: false,
+      comment: 'Out of stock, restock next week'
     }
   ];
 
-
-  getAll(): InventoryItem[] { 
-    return [...this.items]; 
+    getAll(): InventoryItem[] {
+    return this.getItems();
   }
 
-
-  getPopular(): InventoryItem[] { 
-    return this.items.filter(i => i.isPopular); 
+  // 兼容测试的 delete() 方法（按 itemId 删除）
+  delete(itemId: string): void {
+    this.items = this.items.filter(item => item.itemId !== itemId);
   }
 
+  // 获取全部物品
+  getItems(): InventoryItem[] {
+    return [...this.items];
+  }
 
-  add(item: InventoryItem): boolean {
-    if (this.items.some(i => i.itemId === item.itemId)) return false;
-    if (item.quantity > 10) item.status = 'In Stock';
-    else if (item.quantity > 0) item.status = 'Low Stock';
-    else item.status = 'Out of Stock';
-    
-    this.items.push(item);
+  // 获取热门物品
+  getPopularItems(): InventoryItem[] {
+    return this.items.filter(item => item.isPopular);
+  }
+
+  // 获取缺货数量
+  getOutOfStockCount(): number {
+    return this.items.filter(item => !item.inStock).length;
+  }
+
+  // 添加物品（含完整校验）
+  addItem(item: Omit<InventoryItem, 'inStock'>): boolean {
+    // 校验ID唯一性
+    if (this.items.some(existing => existing.id === item.id)) {
+      return false;
+    }
+    // 自动计算库存状态
+    const newItem: InventoryItem = {
+      ...item,
+      inStock: item.quantity > 0
+    };
+    this.items.push(newItem);
     return true;
   }
 
-  delete(itemId: string): void {
-    this.items = this.items.filter(i => i.itemId !== itemId);
+  // 按名称删除物品
+  deleteItemByName(name: string): boolean {
+    const index = this.items.findIndex(
+      item => item.name.toLowerCase() === name.toLowerCase()
+    );
+    if (index === -1) return false;
+    this.items.splice(index, 1);
+    return true;
   }
 
-  search(name: string): InventoryItem[] {
-    return this.items.filter(i =>
-      i.itemName.toLowerCase().includes(name.toLowerCase())
+  // 按名称搜索物品
+  searchItemsByName(name: string): InventoryItem[] {
+    const searchTerm = name.toLowerCase().trim();
+    return this.items.filter(item =>
+      item.name.toLowerCase().includes(searchTerm)
     );
   }
 
-  filterByCategory(cat: Category): InventoryItem[] {
-    return this.items.filter(i => i.category === cat);
+  // 按分类筛选物品（HD 要求）
+  filterItemsByCategory(category: string): InventoryItem[] {
+    if (!category || category.trim() === '') {
+      return this.getItems();
+    }
+    return this.items.filter(item =>
+      item.category.toLowerCase() === category.toLowerCase()
+    );
   }
 
-  update(updatedItem: InventoryItem): boolean {
-    const index = this.items.findIndex(i => i.itemId === updatedItem.itemId);
-    if (index === -1) return false;
-    
-    if (updatedItem.quantity > 10) updatedItem.status = 'In Stock';
-    else if (updatedItem.quantity > 0) updatedItem.status = 'Low Stock';
-    else updatedItem.status = 'Out of Stock';
+  // 按名称编辑物品（HD 要求）
+  updateItemByName(
+    oldName: string,
+    updates: Partial<Omit<InventoryItem, 'id' | 'inStock'>>
+  ): boolean {
+    const item = this.items.find(
+      i => i.name.toLowerCase() === oldName.toLowerCase()
+    );
+    if (!item) return false;
 
-    this.items[index] = updatedItem;
+    // 合并更新
+    Object.assign(item, updates);
+    // 自动更新库存状态
+    item.inStock = item.quantity > 0;
     return true;
-  }
-
-  getById(itemId: string): InventoryItem | undefined {
-    return this.items.find(i => i.itemId === itemId);
   }
 }

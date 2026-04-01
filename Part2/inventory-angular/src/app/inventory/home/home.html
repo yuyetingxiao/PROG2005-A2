@@ -1,8 +1,19 @@
-<h2>Home - Inventory Dashboard</h2>
-<p>Total Items: {{ totalItems }}</p>
-<p>Out of Stock: {{ outOfStockCount }}</p>
+<!-- home.html -->
+<div class="dashboard-stats">
+  <div class="stat-card">
+    <h3>Total Items</h3>
+    <p>{{ totalItems }}</p>
+  </div>
+  <div class="stat-card">
+    <h3>Out of Stock</h3>
+    <p>{{ outOfStockCount }}</p>
+  </div>
+</div>
 
-<h3>Popular Items</h3>
-<div *ngFor="let item of popularItems">
-  <p>{{ item.itemName }} | {{ item.category }} | ${{ item.price }}</p>
+<h2>Popular Items</h2>
+<div class="popular-items">
+  <div class="popular-item" *ngFor="let item of popularItems">
+    <strong>{{ item.name }}</strong> - {{ item.category }} - ${{ item.price }}
+    <p>Stock: {{ item.quantity }} | {{ item.inStock ? 'In Stock' : 'Out of Stock' }}</p>
+  </div>
 </div>

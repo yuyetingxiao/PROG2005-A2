@@ -1,13 +1,13 @@
-export type Category = 'Electronics' | 'Furniture' | 'Clothing' | 'Tools' | 'Other';
-export type StockStatus = 'In Stock' | 'Low Stock' | 'Out of Stock';
-
+// inventory-item.model.ts
 export interface InventoryItem {
+  id: number;
   itemId: string;
-  itemName: string;
-  category: Category;
+  name: string;
+  category: string;
   quantity: number;
   price: number;
   supplier: string;
-  status: StockStatus;
   isPopular: boolean;
+  inStock: boolean;
+  comment: string; 
 }
