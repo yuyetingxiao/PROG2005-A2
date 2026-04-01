@@ -1,1 +1,7 @@
-<p>search works!</p>
+<h2>Search Items</h2>
+<input [(ngModel)]="keyword" placeholder="Search name..." />
+<button (click)="doSearch()">Search</button>
+
+<div *ngFor="let item of result">
+  <p>{{ item.itemName }} | {{ item.category }}</p>
+</div>

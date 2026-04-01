@@ -1,1 +1,17 @@
-<p>manage works!</p>
+<h2>Manage Inventory</h2>
+
+<div class="form">
+  <input [(ngModel)]="newItem.itemId" placeholder="Item ID" />
+  <input [(ngModel)]="newItem.itemName" placeholder="Name" />
+  <input [(ngModel)]="newItem.quantity" type="number" placeholder="Qty" />
+  <input [(ngModel)]="newItem.price" type="number" placeholder="Price" />
+  <button (click)="addItem()">Add Item</button>
+</div>
+
+<h3>All Items</h3>
+<div *ngFor="let item of items">
+  <p>
+    {{ item.itemName }} - {{ item.quantity }} in stock
+    <button (click)="deleteItem(item.itemId)">Delete</button>
+  </p>
+</div>

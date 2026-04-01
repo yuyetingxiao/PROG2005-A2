@@ -1,13 +1,22 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { InventoryService } from '../inventory';
 
 @Component({
   selector: 'app-search',
-  standalone: true, // 必须加，Angular 17+ 独立组件核心
-  imports: [CommonModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './search.html',
   styleUrls: ['./search.css']
 })
 export class SearchComponent {
-  // 这里写你的首页逻辑
+  keyword = '';
+  result: any[] = [];
+
+  constructor(private service: InventoryService) {}
+
+  doSearch() {
+    this.result = this.service.search(this.keyword);
+  }
 }

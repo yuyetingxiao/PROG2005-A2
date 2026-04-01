@@ -20,7 +20,7 @@ import { RouterModule } from '@angular/router';
   `,
   styleUrls: ['./app.css']
 })
-// 👇 必须导出名为 AppComponent 的类，和 main.ts 导入对应
+
 export class AppComponent {
   title = 'inventory-angular';
 }
