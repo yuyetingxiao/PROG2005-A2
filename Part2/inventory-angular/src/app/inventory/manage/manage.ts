@@ -1,4 +1,4 @@
-// manage.ts（HD完整版）
+// manage.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -31,7 +31,7 @@ export class ManageComponent implements OnInit {
     this.items = this.inventoryService.getItems();
   }
 
-  // HD: 添加物品（含校验）
+  // Add item
   addItem(): void {
     if (!this.newItem.id || !this.newItem.name) return;
     const success = this.inventoryService.addItem(this.newItem as InventoryItem);
@@ -41,7 +41,7 @@ export class ManageComponent implements OnInit {
     }
   }
 
-  // HD: 按名称删除
+  // Delete by Name
   deleteItemByName(name: string): void {
     if (confirm('Confirm delete?')) {
       this.inventoryService.deleteItemByName(name);
@@ -49,7 +49,7 @@ export class ManageComponent implements OnInit {
     }
   }
 
-  // HD: 编辑功能
+  // Edit function
   editItem(name: string): void {
     const item = this.items.find(i => i.name === name);
     if (item) this.newItem = { ...item };

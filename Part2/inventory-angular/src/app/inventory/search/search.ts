@@ -1,4 +1,4 @@
-// search.ts - HD 完整组件
+// search.ts
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { InventoryService } from '../inventory';
 import { CommonModule } from '@angular/common';
@@ -18,24 +18,24 @@ export class SearchComponent implements OnInit {
   constructor(private invService: InventoryService) {}
 
   ngOnInit(): void {
-    // 初始化显示全部物品
+    // Initialize display of all items
     this.results = this.invService.getItems();
     this.updateResultMessage();
   }
 
-  // 搜索方法
+  // Search method
   onSearch(searchInput: HTMLInputElement): void {
     this.results = this.invService.searchItemsByName(searchInput.value);
     this.updateResultMessage();
   }
 
-  // 分类筛选方法
+  // Classification filtering method
   onFilter(categorySelect: HTMLSelectElement): void {
     this.results = this.invService.filterItemsByCategory(categorySelect.value);
     this.updateResultMessage();
   }
 
-  // 统一更新结果提示
+  // Unified update result prompt
   private updateResultMessage(): void {
     if (this.msg?.nativeElement) {
       this.msg.nativeElement.textContent = `Found ${this.results.length} item(s)`;

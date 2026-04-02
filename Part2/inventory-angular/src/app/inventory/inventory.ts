@@ -1,10 +1,10 @@
-// inventory.ts - HD 完整服务
+// inventory.ts
 import { Injectable } from '@angular/core';
 import { InventoryItem } from './models/inventory-item.model';
 
 @Injectable({ providedIn: 'root' })
 export class InventoryService {
-  // 初始化示例数据（包含所有必填字段）
+  // Initialize example data
   private items: InventoryItem[] = [
     {
       id: 1,
@@ -48,33 +48,33 @@ export class InventoryService {
     return this.getItems();
   }
 
-  // 兼容测试的 delete() 方法（按 itemId 删除）
+  // The delete() method for compatibility testing
   delete(itemId: string): void {
     this.items = this.items.filter(item => item.itemId !== itemId);
   }
 
-  // 获取全部物品
+  // Get all items
   getItems(): InventoryItem[] {
     return [...this.items];
   }
 
-  // 获取热门物品
+  // Get popular items
   getPopularItems(): InventoryItem[] {
     return this.items.filter(item => item.isPopular);
   }
 
-  // 获取缺货数量
+  // Get out of stock quantity
   getOutOfStockCount(): number {
     return this.items.filter(item => !item.inStock).length;
   }
 
-  // 添加物品（含完整校验）
+  // Add item
   addItem(item: Omit<InventoryItem, 'inStock'>): boolean {
-    // 校验ID唯一性
+    // Verify ID uniqueness
     if (this.items.some(existing => existing.id === item.id)) {
       return false;
     }
-    // 自动计算库存状态
+    // Automatically calculate inventory status
     const newItem: InventoryItem = {
       ...item,
       inStock: item.quantity > 0
@@ -83,7 +83,7 @@ export class InventoryService {
     return true;
   }
 
-  // 按名称删除物品
+  // Delete items by name
   deleteItemByName(name: string): boolean {
     const index = this.items.findIndex(
       item => item.name.toLowerCase() === name.toLowerCase()
@@ -93,7 +93,7 @@ export class InventoryService {
     return true;
   }
 
-  // 按名称搜索物品
+  // Search for items by name
   searchItemsByName(name: string): InventoryItem[] {
     const searchTerm = name.toLowerCase().trim();
     return this.items.filter(item =>
@@ -101,7 +101,7 @@ export class InventoryService {
     );
   }
 
-  // 按分类筛选物品（HD 要求）
+  // Filter items by category
   filterItemsByCategory(category: string): InventoryItem[] {
     if (!category || category.trim() === '') {
       return this.getItems();
@@ -111,7 +111,7 @@ export class InventoryService {
     );
   }
 
-  // 按名称编辑物品（HD 要求）
+  // Edit items by name
   updateItemByName(
     oldName: string,
     updates: Partial<Omit<InventoryItem, 'id' | 'inStock'>>
@@ -121,9 +121,9 @@ export class InventoryService {
     );
     if (!item) return false;
 
-    // 合并更新
+    // Merge update
     Object.assign(item, updates);
-    // 自动更新库存状态
+    // Automatically update inventory status
     item.inStock = item.quantity > 0;
     return true;
   }

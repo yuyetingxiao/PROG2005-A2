@@ -23,12 +23,9 @@ export class HomeComponent implements OnInit {
   }
 
   loadData(): void {
-    // 统一方法名：getItems() 替代 getAll()
     this.allItems = this.inventoryService.getItems();
-    // 统一方法名：getPopularItems() 替代 getPopular()
     this.popularItems = this.inventoryService.getPopularItems();
     this.totalItems = this.allItems.length;
-    // 修复：用正确的inStock字段替代不存在的status
     this.outOfStockCount = this.allItems.filter(i => !i.inStock).length;
   }
 }
