@@ -1,4 +1,6 @@
 <!-- home.html -->
+<h1>Inventory Dashboard</h1>
+
 <div class="dashboard-stats">
   <div class="stat-card">
     <h3>Total Items</h3>
@@ -10,10 +12,10 @@
   </div>
 </div>
 
-<h2>Popular Items</h2>
-<div class="popular-items">
-  <div class="popular-item" *ngFor="let item of popularItems">
-    <strong>{{ item.name }}</strong> - {{ item.category }} - ${{ item.price }}
-    <p>Stock: {{ item.quantity }} | {{ item.inStock ? 'In Stock' : 'Out of Stock' }}</p>
+<div class="popular-items card">
+  <h2>Popular Items</h2>
+  <div *ngFor="let item of popularItems" class="popular-item">
+    <strong>{{ item.name }}</strong>
+    <p>Category: {{ item.category }} | Stock: {{ item.quantity }}</p>
   </div>
 </div>

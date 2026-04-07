@@ -9,8 +9,21 @@
 .stat-card {
   background: white;
   padding: 1.5rem;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+.stat-card h3 {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #0f172a;
 }
 
 .popular-items {
@@ -18,6 +31,10 @@
 }
 
 .popular-item {
-  padding: 0.75rem;
-  border-bottom: 1px solid #e9ecef;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.popular-item:last-child {
+  border-bottom: none;
 }
