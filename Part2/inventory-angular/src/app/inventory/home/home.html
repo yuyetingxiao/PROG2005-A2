@@ -1,21 +1,59 @@
 <!-- home.html -->
-<h1>Inventory Dashboard</h1>
-
-<div class="dashboard-stats">
-  <div class="stat-card">
-    <h3>Total Items</h3>
-    <p>{{ totalItems }}</p>
+<div class="home-container">
+  <div class="card welcome-card">
+    <h1>Welcome to Angular Inventory Management System</h1>
   </div>
-  <div class="stat-card">
-    <h3>Out of Stock</h3>
-    <p>{{ outOfStockCount }}</p>
-  </div>
-</div>
 
-<div class="popular-items card">
-  <h2>Popular Items</h2>
-  <div *ngFor="let item of popularItems" class="popular-item">
-    <strong>{{ item.name }}</strong>
-    <p>Category: {{ item.category }} | Stock: {{ item.quantity }}</p>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h3>Total Items</h3>
+      <p class="stat-number">{{ totalItems }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>In Stock</h3>
+      <p class="stat-number">{{ inStockItems }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Low Stock</h3>
+      <p class="stat-number">{{ lowStockItems }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Out of Stock</h3>
+      <p class="stat-number">{{ outOfStockItems }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Popular Items</h3>
+      <p class="stat-number">{{ popularItems }}</p>
+    </div>
+  </div>
+
+  <div class="card features-card">
+    <h2>Core Application Purpose</h2>
+    <ul class="feature-list">
+      <li>Manage inventory items with add, edit, delete, search and filter functions</li>
+      <li>Support responsive design for mobile and desktop devices</li>
+      <li>Implement strict data validation to ensure data integrity</li>
+      <li>Analyze and display privacy & security requirements for mobile inventory apps</li>
+      <li>Provide detailed help documentation and FAQs for users</li>
+    </ul>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <h3>Inventory Operation</h3>
+      <p>Add, edit and delete items with full data validation</p>
+    </div>
+    <div class="feature-card">
+      <h3>Search & Filter</h3>
+      <p>Fuzzy search by item name, filter by category and popular items</p>
+    </div>
+    <div class="feature-card">
+      <h3>Responsive Design</h3>
+      <p>Adapt to all mobile and desktop screen sizes</p>
+    </div>
+    <div class="feature-card">
+      <h3>Privacy & Security</h3>
+      <p>Comprehensive analysis of mobile app security requirements</p>
+    </div>
   </div>
 </div>

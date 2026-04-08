@@ -1,44 +1,83 @@
 // search.ts
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+/**
+ * PROG2005 Assignment 2 Part 2
+ * Search & Filter Component
+ * Search by name, filter by category, filter popular items
+ */
+import { Component } from '@angular/core';
 import { InventoryService } from '../inventory';
-import { CommonModule } from '@angular/common';
 import { InventoryItem } from '../models/inventory-item.model';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-search',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './search.html',
-  styleUrls: ['./search.css']
+  styleUrls: ['./search.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule]
 })
-export class SearchComponent implements OnInit {
-  results: InventoryItem[] = [];
-  @ViewChild('msg') msg!: ElementRef<HTMLDivElement>;
+export class SearchComponent {
+  searchResults: InventoryItem[] = [];
+  searchKeyword = '';
+  selectedCategory = '';
+  showPopularOnly = false;
 
-  constructor(private invService: InventoryService) {}
+  categories = ['Electronics', 'Furniture', 'Clothing', 'Tools', 'Other'];
 
-  ngOnInit(): void {
-    // Initialize display of all items
-    this.results = this.invService.getItems();
-    this.updateResultMessage();
+  constructor(public inventoryService: InventoryService) {
+    this.searchResults = this.inventoryService.getItems();
   }
 
-  // Search method
-  onSearch(searchInput: HTMLInputElement): void {
-    this.results = this.invService.searchItemsByName(searchInput.value);
-    this.updateResultMessage();
+  /**
+   * Trigger search by name
+   */
+  onSearch(): void {
+    this.applyFilters();
   }
 
-  // Classification filtering method
-  onFilter(categorySelect: HTMLSelectElement): void {
-    this.results = this.invService.filterItemsByCategory(categorySelect.value);
-    this.updateResultMessage();
+  /**
+   * Trigger filter by category
+   */
+  onCategoryChange(): void {
+    this.applyFilters();
   }
 
-  // Unified update result prompt
-  private updateResultMessage(): void {
-    if (this.msg?.nativeElement) {
-      this.msg.nativeElement.textContent = `Found ${this.results.length} item(s)`;
+  /**
+   * Trigger popular item filter
+   */
+  onPopularFilterChange(): void {
+    this.applyFilters();
+  }
+
+  /**
+   * Apply all active filters
+   */
+  private applyFilters(): void {
+    let results = this.inventoryService.getItems();
+
+    if (this.searchKeyword.trim()) {
+      results = this.inventoryService.searchItemsByName(this.searchKeyword);
     }
+
+    if (this.selectedCategory) {
+      results = results.filter(item => item.category === this.selectedCategory);
+    }
+
+    if (this.showPopularOnly) {
+      results = this.inventoryService.getPopularItems();
+    }
+
+    this.searchResults = results;
+  }
+
+  /**
+   * Reset all filters
+   */
+  resetFilters(): void {
+    this.searchKeyword = '';
+    this.selectedCategory = '';
+    this.showPopularOnly = false;
+    this.searchResults = this.inventoryService.getItems();
   }
 }

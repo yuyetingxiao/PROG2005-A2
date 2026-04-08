@@ -1,26 +1,18 @@
+/**
+ * PROG2005 Assignment 2 Part 2
+ * Root Component
+ * Main navigation and layout wrapper
+ */
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
+  templateUrl: './app.html',
+  styleUrls: ['./app.css'],
   standalone: true,
-  imports: [RouterModule],
-  template: `
-    <div class="container">
-      <h1>Angular Inventory Management System</h1>
-      <nav>
-        <a routerLink="/inventory/home" routerLinkActive="active">Home</a>
-        <a routerLink="/inventory/manage" routerLinkActive="active">Manage Inventory</a>
-        <a routerLink="/inventory/search" routerLinkActive="active">Search & Filter</a>
-        <a routerLink="/inventory/privacy" routerLinkActive="active">Privacy & Security</a>
-        <a routerLink="/inventory/help" routerLinkActive="active">Help</a>
-      </nav>
-      <router-outlet></router-outlet>
-    </div>
-  `,
-  styleUrls: ['./app.css']
+  imports: [RouterModule]
 })
-
 export class AppComponent {
-  title = 'inventory-angular';
+  title = 'Inventory Management System';
 }

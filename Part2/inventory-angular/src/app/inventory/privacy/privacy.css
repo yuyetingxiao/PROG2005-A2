@@ -1,9 +1,61 @@
 /* Privacy Page Style */
-.content-block {
-  line-height: 1.8;
-  color: #495057;
+/**
+ * PROG2005 Assignment 2 Part 2
+ * Privacy Component Styles
+ * Privacy and security page styling
+ */
+.privacy-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
-
-.content-block p {
-  margin-bottom: 0.75rem;
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  padding: 2rem;
+  border: 1px solid #f1f5f9;
+}
+.privacy-card h1 {
+  color: #0f172a;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.intro {
+  color: #64748b;
+  line-height: 1.6;
+  font-size: 1.05rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.security-section {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+.security-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.security-section h2 {
+  color: #2563eb;
+  margin-bottom: 1rem;
+}
+.section-content h3 {
+  color: #0f172a;
+  margin: 1.2rem 0 0.8rem;
+}
+.section-content ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+  color: #334155;
+  line-height: 1.6;
+}
+.section-content li {
+  margin-bottom: 0.5rem;
+}
+.section-content p {
+  color: #334155;
+  line-height: 1.6;
 }

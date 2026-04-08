@@ -1,30 +1,198 @@
 <!-- manage.html -->
-<h1>Manage Inventory</h1>
+<div class="manage-container">
+  <div class="card form-card">
+    <h2>Inventory Operation</h2>
+    <p class="form-hint">Manage all inventory items here. All fields are required except Comment.</p>
 
-<div class="add-item-form card">
-  <input [(ngModel)]="newItem.id" type="number" placeholder="ID" />
-  <input [(ngModel)]="newItem.name" placeholder="Item Name" />
-  <input [(ngModel)]="newItem.category" placeholder="Category" />
-  <input [(ngModel)]="newItem.quantity" type="number" placeholder="Quantity" />
-  <input [(ngModel)]="newItem.price" type="number" placeholder="Price" />
-  <input [(ngModel)]="newItem.supplier" placeholder="Supplier" />
-  <label>
-    <input [(ngModel)]="newItem.isPopular" type="checkbox" />
-    Popular
-  </label>
-  <button (click)="addItem()">Add Item</button>
-</div>
+    <form class="inventory-form">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="itemId">Item ID (*)</label>
+          <input
+            type="text"
+            id="itemId"
+            [(ngModel)]="newItem.id"
+            name="itemId"
+            placeholder="Unique ID (e.g. ITEM001)"
+            [disabled]="isEditing"
+            required
+          />
+        </div>
 
-<div class="items-list card">
-  <h2>Item List</h2>
-  <div *ngFor="let item of items" class="item-row">
-    <div>
-      <strong>{{ item.name }}</strong>
-      <p>{{ item.category }} | {{ item.quantity }} in stock</p>
+        <div class="form-group">
+          <label for="itemName">Item Name (*)</label>
+          <input
+            type="text"
+            id="itemName"
+            [(ngModel)]="newItem.name"
+            name="itemName"
+            placeholder="Item Name"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="category">Category (*)</label>
+          <select
+            id="category"
+            [(ngModel)]="newItem.category"
+            name="category"
+            required
+          >
+            <option value="Electronics">Electronics</option>
+            <option value="Furniture">Furniture</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Tools">Tools</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="quantity">Quantity (*)</label>
+          <input
+            type="number"
+            id="quantity"
+            [(ngModel)]="newItem.quantity"
+            name="quantity"
+            min="0"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="price">Price (*)</label>
+          <input
+            type="number"
+            id="price"
+            [(ngModel)]="newItem.price"
+            name="price"
+            min="0"
+            step="0.01"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="supplier">Supplier Name (*)</label>
+          <input
+            type="text"
+            id="supplier"
+            [(ngModel)]="newItem.supplier"
+            name="supplier"
+            placeholder="Supplier Name"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="stockStatus">Stock Status (*)</label>
+          <select
+            id="stockStatus"
+            [(ngModel)]="newItem.stockStatus"
+            name="stockStatus"
+            required
+          >
+            <option value="In Stock">In Stock</option>
+            <option value="Low Stock">Low Stock</option>
+            <option value="Out of Stock">Out of Stock</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="popularItem">Popular Item (*)</label>
+          <select
+            id="popularItem"
+            [(ngModel)]="newItem.popularItem"
+            name="popularItem"
+            required
+          >
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group full-width">
+        <label for="comment">Comment (Optional)</label>
+        <textarea
+          id="comment"
+          [(ngModel)]="newItem.comment"
+          name="comment"
+          placeholder="Additional notes..."
+          rows="3"
+        ></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn btn-add"
+          (click)="addItem()"
+          [disabled]="isEditing"
+        >
+          Add Item
+        </button>
+        <button
+          type="button"
+          class="btn btn-load"
+          (click)="loadItem(newItem)"
+          [disabled]="!newItem.id"
+        >
+          Load Item
+        </button>
+        <button
+          type="button"
+          class="btn btn-save"
+          (click)="saveEdit()"
+          [disabled]="!isEditing"
+        >
+          Save Edit
+        </button>
+        <button
+          type="button"
+          class="btn btn-delete"
+          (click)="deleteItem(newItem.id)"
+          [disabled]="!isEditing"
+        >
+          Delete Item
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card list-card">
+    <h3>Current Inventory List</h3>
+    <div class="inventory-list" *ngIf="inventoryService.getItems().length > 0; else noItems">
+      <div class="list-header">
+        <span>ID</span>
+        <span>Name</span>
+        <span>Category</span>
+        <span>Quantity</span>
+        <span>Price</span>
+        <span>Status</span>
+        <span>Popular</span>
+        <span>Actions</span>
+      </div>
+      <div
+        class="list-item"
+        *ngFor="let item of inventoryService.getItems()"
+      >
+        <span>{{ item.id }}</span>
+        <span>{{ item.name }}</span>
+        <span>{{ item.category }}</span>
+        <span>{{ item.quantity }}</span>
+        <span>${{ item.price.toFixed(2) }}</span>
+        <span>{{ item.stockStatus }}</span>
+        <span>{{ item.popularItem }}</span>
+        <div class="item-actions">
+          <button class="btn btn-load" (click)="loadItem(item)">Edit</button>
+          <button class="btn btn-delete" (click)="deleteItem(item.id)">Delete</button>
+        </div>
+      </div>
     </div>
-    <div class="actions">
-      <button (click)="editItem(item.name)">Edit</button>
-      <button class="delete" (click)="deleteItemByName(item.name)">Delete</button>
-    </div>
+
+    <ng-template #noItems>
+      <p class="empty-state">No inventory items found. Add your first item above!</p>
+    </ng-template>
   </div>
 </div>

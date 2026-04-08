@@ -1,31 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+/**
+ * PROG2005 Assignment 2 Part 2
+ * Home Component
+ * Dashboard, statistics and app overview
+ */
+import { Component } from '@angular/core';
 import { InventoryService } from '../inventory';
-import { InventoryItem } from '../models/inventory-item.model';
 
 @Component({
   selector: 'app-home',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './home.html',
   styleUrls: ['./home.css']
 })
-export class HomeComponent implements OnInit {
-  popularItems: InventoryItem[] = [];
-  allItems: InventoryItem[] = [];
-  totalItems = 0;
-  outOfStockCount = 0;
+export class HomeComponent {
+  constructor(public inventoryService: InventoryService) {}
 
-  constructor(private inventoryService: InventoryService) {}
-
-  ngOnInit(): void {
-    this.loadData();
+  get totalItems(): number {
+    return this.inventoryService.getItems().length;
   }
 
-  loadData(): void {
-    this.allItems = this.inventoryService.getItems();
-    this.popularItems = this.inventoryService.getPopularItems();
-    this.totalItems = this.allItems.length;
-    this.outOfStockCount = this.allItems.filter(i => !i.inStock).length;
+  get inStockItems(): number {
+    return this.inventoryService.getItems().filter(i => i.stockStatus === 'In Stock').length;
+  }
+
+  get lowStockItems(): number {
+    return this.inventoryService.getItems().filter(i => i.stockStatus === 'Low Stock').length;
+  }
+
+  get outOfStockItems(): number {
+    return this.inventoryService.getItems().filter(i => i.stockStatus === 'Out of Stock').length;
+  }
+
+  get popularItems(): number {
+    return this.inventoryService.getPopularItems().length;
   }
 }

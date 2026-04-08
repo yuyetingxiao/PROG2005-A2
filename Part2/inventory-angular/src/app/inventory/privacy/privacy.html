@@ -1,17 +1,75 @@
 <!-- privacy.html -->
-<div class="content-block">
-  <h1>Privacy & Security</h1>
-  <p>This Inventory Management System is designed with strong privacy and security principles.</p>
+<div class="privacy-container">
+  <div class="card privacy-card">
+    <h1>Privacy & Security Analysis for Mobile Inventory App</h1>
+    <p class="intro">
+      This page outlines the key privacy and security requirements for the Angular Inventory Management System,
+      specifically designed for mobile and web environments, complying with Australian privacy laws and mobile app security best practices.
+    </p>
 
-  <h3>Data Protection</h3>
-  <p>All inventory data is stored locally in the browser session. No data is sent to external servers.</p>
+    <section class="security-section">
+      <h2>1. Data Security Requirements</h2>
+      <div class="section-content">
+        <h3>Data Storage Security</h3>
+        <ul>
+          <li><strong>Local Storage Protection:</strong> Inventory data is stored in browser local storage, which is isolated to the user's device and cannot be accessed by other websites.</li>
+          <li><strong>Data Minimization:</strong> Only collect necessary inventory data, no personal user information is stored in the system.</li>
+          <li><strong>Data Persistence:</strong> Data is stored locally on the device, ensuring session persistence without external server transmission.</li>
+        </ul>
 
-  <h3>User Security</h3>
-  <p>Input validation is applied to all forms to prevent invalid data entry. All operations are logged in session.</p>
+        <h3>Input Validation & Sanitization</h3>
+        <ul>
+          <li><strong>Strict Data Validation:</strong> All user inputs are validated to prevent invalid data entry and injection attacks.</li>
+          <li><strong>Type Safety:</strong> TypeScript is used to enforce strict type checking, preventing type-related vulnerabilities.</li>
+          <li><strong>Input Sanitization:</strong> All user-generated content is sanitized before rendering to prevent XSS vulnerabilities.</li>
+        </ul>
+      </div>
+    </section>
 
-  <h3>Mobile Security Considerations</h3>
-  <p>Responsive design ensures safe usage on mobile devices. Sensitive data is not cached persistently.</p>
+    <section class="security-section">
+      <h2>2. Mobile App Privacy Requirements</h2>
+      <div class="section-content">
+        <h3>User Privacy Protection</h3>
+        <ul>
+          <li><strong>No Personal Data Collection:</strong> The app does not collect, store, or share any personal user information, complying with the Privacy Act 1988 (Cth).</li>
+          <li><strong>Transparent Data Usage:</strong> Clear disclosure of what data is stored and how it is used, with no hidden data collection.</li>
+          <li><strong>User Control:</strong> Users can delete their inventory data at any time, with full control over their data.</li>
+        </ul>
 
-  <h3>Compliance</h3>
-  <p>The system follows best practices for web and mobile application security standards.</p>
+        <h3>Mobile-Specific Privacy</h3>
+        <ul>
+          <li><strong>Offline Privacy:</strong> All data is stored locally on the device, no data is transmitted to external servers without user consent.</li>
+          <li><strong>Device Isolation:</strong> Data is isolated to the user's device, no cross-device sync without explicit user action.</li>
+          <li><strong>Minimal Permissions:</strong> The app requires no unnecessary device permissions, only access to browser storage for inventory data.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="security-section">
+      <h2>3. Mobile App Security Best Practices Implemented</h2>
+      <div class="section-content">
+        <ul>
+          <li><strong>Responsive Security:</strong> The app is designed with mobile-first security, ensuring secure operation on all mobile devices.</li>
+          <li><strong>Secure Component Architecture:</strong> Angular's component-based architecture ensures secure state management.</li>
+          <li><strong>Secure Routing:</strong> Angular's router provides secure navigation, preventing unauthorized access to app pages.</li>
+          <li><strong>Latest Security Patches:</strong> Built with the latest Angular version, including the latest security updates.</li>
+          <li><strong>Secure Error Handling:</strong> Error handling that does not expose sensitive system information to users.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="security-section">
+      <h2>4. Compliance with Australian Privacy Laws</h2>
+      <div class="section-content">
+        <p>
+          This inventory management system complies with the <strong>Privacy Act 1988 (Cth)</strong> and the Australian Privacy Principles (APPs), specifically:
+        </p>
+        <ul>
+          <li><strong>APP 1:</strong> Open and transparent management of personal information (no personal information collected)</li>
+          <li><strong>APP 3:</strong> Collection of personal information (no personal information collected)</li>
+          <li><strong>APP 11:</strong> Security of personal information (strict security measures for inventory data)</li>
+        </ul>
+      </div>
+    </section>
+  </div>
 </div>

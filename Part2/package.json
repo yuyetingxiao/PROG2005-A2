@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "@types/jasmine": "^6.0.0"
+  },
+  "dependencies": {
+    "zone.js": "^0.16.1"
+  }
+}

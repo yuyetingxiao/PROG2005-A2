@@ -1,6 +1,12 @@
+/**
+ * PROG2005 Assignment 2 Part 2
+ * Main Entry Point
+ * Bootstraps the Angular application
+ */
+import 'zone.js';
+
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
-
 import { AppComponent } from './app/app';
 
 bootstrapApplication(AppComponent, appConfig)

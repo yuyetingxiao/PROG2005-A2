@@ -1,22 +1,73 @@
 <!-- search.html -->
-<h1>Search Inventory</h1>
+<div class="search-container">
+  <div class="card filter-card">
+    <h2>Search & Filter Inventory</h2>
+    <div class="filter-grid">
+      <div class="filter-group">
+        <label for="searchName">Search by Item Name</label>
+        <input
+          type="text"
+          id="searchName"
+          [(ngModel)]="searchKeyword"
+          (input)="onSearch()"
+          placeholder="Enter item name..."
+        />
+      </div>
 
-<div class="card">
-  <input #searchInput (input)="onSearch(searchInput)" class="form-control" placeholder="Search by name" />
+      <div class="filter-group">
+        <label for="categoryFilter">Filter by Category</label>
+        <select
+          id="categoryFilter"
+          [(ngModel)]="selectedCategory"
+          (change)="onCategoryChange()"
+        >
+          <option value="">All Categories</option>
+          <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+        </select>
+      </div>
 
-  <select #categorySelect (change)="onFilter(categorySelect)" class="form-control">
-    <option value="">All Categories</option>
-    <option value="Electronics">Electronics</option>
-    <option value="Furniture">Furniture</option>
-    <option value="Tools">Tools</option>
-  </select>
+      <div class="filter-group checkbox-group">
+        <label>
+          <input
+            type="checkbox"
+            [(ngModel)]="showPopularOnly"
+            (change)="onPopularFilterChange()"
+          />
+          Show Popular Items Only
+        </label>
+      </div>
 
-  <div #msg class="message"></div>
+      <div class="filter-group">
+        <button class="btn btn-reset" (click)="resetFilters()">Reset Filters</button>
+      </div>
+    </div>
+  </div>
 
-  <ul class="item-list">
-    <li *ngFor="let item of results">
-      <strong>{{ item.name }}</strong>
-      <p>Category: {{ item.category }} | Price: ${{ item.price }}</p>
-    </li>
-  </ul>
+  <div class="card results-card">
+    <h3>Search Results ({{ searchResults.length }} items)</h3>
+    <div class="inventory-list" *ngIf="searchResults.length > 0; else noResults">
+      <div class="list-header">
+        <span>ID</span>
+        <span>Name</span>
+        <span>Category</span>
+        <span>Quantity</span>
+        <span>Price</span>
+        <span>Status</span>
+        <span>Popular</span>
+      </div>
+      <div class="list-item" *ngFor="let item of searchResults">
+        <span>{{ item.id }}</span>
+        <span>{{ item.name }}</span>
+        <span>{{ item.category }}</span>
+        <span>{{ item.quantity }}</span>
+        <span>${{ item.price.toFixed(2) }}</span>
+        <span>{{ item.stockStatus }}</span>
+        <span>{{ item.popularItem }}</span>
+      </div>
+    </div>
+
+    <ng-template #noResults>
+      <p class="empty-state">No items found matching your search criteria.</p>
+    </ng-template>
+  </div>
 </div>

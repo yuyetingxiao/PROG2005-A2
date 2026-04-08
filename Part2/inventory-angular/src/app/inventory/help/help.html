@@ -1,18 +1,85 @@
 <!-- help.html -->
-<div class="content-block">
-  <h1>Help & Troubleshooting</h1>
-  <p>Welcome to the Inventory System Help Center. Here you can find answers to common questions.</p>
+<div class="help-container">
+  <div class="card help-card">
+    <h1>Help & FAQ - Inventory Management System</h1>
+    <p class="intro">
+      Welcome to the help page for the Angular Inventory Management System. Here you will find answers to common questions,
+      troubleshooting tips, and usage instructions.
+    </p>
 
-  <h3>FAQs</h3>
-  <p><strong>Q: How to add a new item?</strong><br>
-  A: Go to Manage Inventory page, fill in all required fields and click Add Item.</p>
+    <section class="faq-section">
+      <h2>Frequently Asked Questions (FAQs)</h2>
 
-  <p><strong>Q: Why can't I delete an item?</strong><br>
-  A: Please check the item name is correct and try again.</p>
+      <div class="faq-item">
+        <h3>Q: How do I add a new inventory item?</h3>
+        <p>A: Go to the <strong>Inventory Operation</strong> page, fill in all required fields (ID, Name, Category, Supplier, Quantity, Price, Stock Status, Popular Item),
+        then click the <strong>Add Item</strong> button. The item will be saved to your inventory list.</p>
+      </div>
 
-  <p><strong>Q: What does out of stock mean?</strong><br>
-  A: Item quantity is 0, please restock to update status automatically.</p>
+      <div class="faq-item">
+        <h3>Q: How do I edit an existing item?</h3>
+        <p>A: In the inventory list, find the item you want to edit and click the <strong>Edit</strong> button. The item's details will load into the form.
+        Make your changes, then click <strong>Save Edit</strong> to update the item.</p>
+      </div>
 
-  <h3>Contact Support</h3>
-  <p>For further assistance, please contact system administrator.</p>
+      <div class="faq-item">
+        <h3>Q: How do I delete an item?</h3>
+        <p>A: In the inventory list, find the item you want to delete and click the <strong>Delete</strong> button. You will be asked to confirm the deletion.
+        Once confirmed, the item will be permanently removed from your inventory.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Q: How do I search for an item?</h3>
+        <p>A: Go to the <strong>Search & Filter</strong> page, enter the item name in the search box, and the results will update automatically.
+        You can also filter by category or show only popular items.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Q: Is my data saved if I close the browser?</h3>
+        <p>A: Yes! All inventory data is stored in your browser's local storage, so it will persist even if you close the browser or restart your device.
+        The data is only stored on your local device, not on any external server.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Q: Can I use this app on my mobile phone?</h3>
+        <p>A: Yes! The app is fully responsive and designed to work on all mobile and desktop devices. The layout will automatically adjust to your screen size.</p>
+      </div>
+    </section>
+
+    <section class="troubleshooting-section">
+      <h2>Troubleshooting</h2>
+
+      <div class="trouble-item">
+        <h3>Problem: I can't add an item, it says "ID already exists"</h3>
+        <p><strong>Solution:</strong> Each item must have a unique ID. Please use a different ID that is not already in your inventory list.</p>
+      </div>
+
+      <div class="trouble-item">
+        <h3>Problem: My changes are not saving</h3>
+        <p><strong>Solution:</strong> Make sure you click the <strong>Save Edit</strong> button after making changes. Also, ensure your browser allows local storage (not in incognito mode).</p>
+      </div>
+
+      <div class="trouble-item">
+        <h3>Problem: The app is not working on my mobile device</h3>
+        <p><strong>Solution:</strong> Ensure you are using a modern browser (Chrome, Safari, Firefox) on your mobile device. Clear your browser cache and reload the page.</p>
+      </div>
+
+      <div class="trouble-item">
+        <h3>Problem: I lost my inventory data</h3>
+        <p><strong>Solution:</strong> Data is stored in local storage, so clearing your browser cache or resetting your browser will delete the data.
+        We recommend regularly backing up your inventory data if needed.</p>
+      </div>
+    </section>
+
+    <section class="usage-section">
+      <h2>Usage Instructions</h2>
+      <ol>
+        <li><strong>Home Page:</strong> View system overview, inventory statistics, and core features.</li>
+        <li><strong>Inventory Operation:</strong> Add, edit, delete, and manage your inventory items.</li>
+        <li><strong>Search & Filter:</strong> Search for items by name, filter by category, or view popular items.</li>
+        <li><strong>Privacy & Security:</strong> View the privacy and security analysis of the app.</li>
+        <li><strong>Help:</strong> Access FAQs, troubleshooting, and usage instructions.</li>
+      </ol>
+    </section>
+  </div>
 </div>
